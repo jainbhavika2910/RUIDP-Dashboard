@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUIDP</title>
+    <link rel ="stylesheet" href ="style.css">
+    <link rel = "stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+</head>
+<body style="overflow: hidden;">
+    <header>
+    <div>
+        <div class="navbar">
+            <div class = "gor">
+                 <img src="gor1-removebg-preview.png" alt="Image">
+            </div>
+            <div class = "abd">
+                 <img src="abd-removebg-preview.png" alt="Image">
+           </div>
+           <div class="home-border">
+            <img src = "home-removebg-preview.png" alt = "Image">
+            <a href="0 index.html"> Home </a> 
+           </div> 
+           <div class = " cons-border">
+            <img src = "about-removebg-preview.png" alt = "Image">
+            <a href="About.html"> About </a> 
+           </div>
+           <div class = "Services-border">
+            <img src = "dashb-removebg-preview.png" alt = "Image">
+            <a href="dash.html"> Dashboard </a> 
+           </div>
+        </div>
+    </header>
+    <!--Home Page-->
+    <div class id="main">
+    <div class="container">
+  <!-- Slide 1 -->
+  <div class="slide active">
+    <div class="HomePage">
+      <div class="right-image">
+        <img src="ruidp4.png" alt="Image" />
+      </div>
+      <h2 style = "margin-top: -200px";>
+          Rajasthan Urban Infrastructure Development Project</h2>
+    </div>
+  </div>
+
+  <!-- Slide 2 -->
+  <div class="slide">
+    <div class="slide-text">
+      <h4>The key benefits of RUIDP (Rajasthan Urban Infrastructure Development Project)</h4>
+      <br><br>
+      <p>
+        1. Improved Urban Infrastructure <br>
+        2. Better Public Health and Hygiene <br>
+        3. Cleaner Urban Environment <br>
+        4. Economic Growth <br>
+        5. Support for Women and Vulnerable Groups <br>
+        6. Strengthening Local Governance <br>
+        7. Foundation for Smart Cities
+      </p>
+    </div>
+    <div class="right-image1">
+        <img src="ruidp3.jpg" alt="image"/>
+    </div>
+  </div>
+
+  <!-- Navigation Buttons -->
+  <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+  <button class="next" onclick="changeSlide(1)">&#10095;</button>
+</div>
+
+    <footer>
+   <div class="container3">
+    <div class="fotter">
+         <div class="Quicklinks">
+            <h2>Quick Links</h2>
+            <a href="0 index.html">Home</a>
+            <br>
+            <br>
+            <a href="About.html">About</a>
+            <br>
+            <br>
+            <a href="dash.html">Dashboard</a>
+            <br>
+            <br>
+            <br>
+        </div> 
+    </div> 
+           
+</div>
+</footer>
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.remove('active');
+    });
+    slides[index].classList.add('active');
+  }
+
+  function changeSlide(direction) {
+    currentSlide += direction;
+    if (currentSlide < 0) currentSlide = slides.length - 1;
+    if (currentSlide >= slides.length) currentSlide = 0;
+    showSlide(currentSlide);
+  }
+
+  // Show the first slide initially
+  showSlide(currentSlide);
+</script>
+
+</body>
+</html>

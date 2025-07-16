@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RUIDP Dashboard</title>
+  <link rel ="stylesheet" href ="style.css">
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+  google.charts.load('current', { packages: ['corechart', 'gantt'] });
+  google.charts.setOnLoadCallback(drawCharts);
+
+  function drawCharts() {
+    // === PIE CHART ===
+    var pieQuery = new google.visualization.Query(
+      'https://docs.google.com/spreadsheets/d/1y6etVhmH9K4Nlico5HChK2puKG9kR7hmKvyHjJVKARE/edit?gid=0#gid=0' + encodeURIComponent('SELECT A, B') + '&sheet=Sheet1'
+    );
+
+    pieQuery.send(function(response) {
+      if (response.isError()) {
+        console.error('Pie Chart Error: ' + response.getMessage());
+        return;
+      }
+      var data = response.getDataTable();
+      
+      // Check if data has at least 1 row (1 header + 1 data row)
+      if (data.getNumberOfRows() < 1) {
+        console.warn('No data available for the pie chart.');
+        return;
+      }
+
+      var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+      chart.draw(data, { title: 'Project Type Distribution' });
+    });
+
+    // === GANTT CHART ===
+    var ganttQuery = new google.visualization.Query(
+      'https://docs.google.com/spreadsheets/d/1KtSPoNq_LvuuAXMKyZQOH8lnBF_9nTl6wWopf6HbetI/edit?gid=0#gid=0' + encodeURIComponent('SELECT A, B, C, D, E, F, G, H') + '&sheet=Sheet1'
+    );
+
+    ganttQuery.send(function(response) {
+      if (response.isError()) {
+        console.error('Gantt Chart Error: ' + response.getMessage());
+        return;
+      }
+
+      var rawData = response.getDataTable();
+      var formattedData = new google.visualization.DataTable();
+      formattedData.addColumn('string', 'Task ID');
+      formattedData.addColumn('string', 'Task Name');
+      formattedData.addColumn('string', 'Resource');
+      formattedData.addColumn('date', 'Start Date');
+      formattedData.addColumn('date', 'End Date');
+      formattedData.addColumn('number', 'Duration');
+      formattedData.addColumn('number', 'Percent Complete');
+      formattedData.addColumn('string', 'Dependencies');
+
+      var today = new Date(); // Use the current date
+
+      for (var i = 0; i < rawData.getNumberOfRows(); i++) {
+        var endDate = new Date(rawData.getValue(i, 4));
+        formattedData.addRow([
+          rawData.getValue(i, 0),
+          rawData.getValue(i, 1),
+          rawData.getValue(i, 2),
+          new Date(rawData.getValue(i, 3)),
+          endDate,
+          null,
+          rawData.getValue(i, 6),
+          rawData.getValue(i, 7)
+        ]);
+
+        // Check if the project is delayed
+        if (endDate < today && rawData.getValue(i, 6) < 100) { // Assuming column G is Percent Complete
+          alert('Project "' + rawData.getValue(i, 1) + '" is delayed!');
+        }
+      }
+
+      var chart = new google.visualization.Gantt(document.getElementById('ganttchart'));
+      chart.draw(formattedData, {
+        height: 400,
+        gantt: {
+          trackHeight: 30
+        }
+      });
+    });
+  }
+</script>
+</head>
+<body>
+  <header>
+    <div>
+        <div class="navbar">
+            <div class = "gor">
+                 <img src="gor1-removebg-preview.png" alt="Image">
+            </div>
+            <div class = "abd">
+                 <img src="abd-removebg-preview.png" alt="Image">
+           </div>
+           <div class="home-border">
+            <img src = "home-removebg-preview.png" alt = "Image">
+            <a href="0 index.html"> Home </a> 
+           </div> 
+           <div class = " cons-border">
+            <img src = "about-removebg-preview.png" alt = "Image">
+            <a href="About.html"> About </a> 
+           </div>
+           <div class = "Services-border">
+            <img src = "dashb-removebg-preview.png" alt = "Image">
+            <a href="dash.html"> Dashboard </a> 
+           </div>
+        </div>
+    </div>
+  </header>
+<div class="dash">
+   <div class="slide1 chartslide active">
+    <div class="topic">
+      <h2 style="text-align:center;">PROJECT MONITORING DASHBOARD</h2>
+    </div>
+
+   <div class=" cardchart" style="margin-left: -50px;">
+    <div class="cardpie">
+     <div id="piechart" style="width: 900px; height: 500px;"></div>
+    </div>
+    <div class="cardgant">
+     <div id="ganttchart" style="width:500px; height: 500px;"></div>
+    </div>
+  </div>
+  <div class="slide1 cardslide active " style="margin-top: -250px;">
+    <div class="card2">
+        <div class="card3">
+            <div class="card3-img">  
+                <img src="sewer.jpeg" alt="image">
+            </div>
+            <div class="card3-content">
+                <a href="sewerage.html"><h3>SEWERAGE PROJECT</h3></a>
+            </div> 
+        </div>
+        <div class="card3">
+            <div class="card3-img">  
+                <img src="drain.jpeg" alt="image">
+            </div>
+            <div class="card3-content">
+                <a href="drainage.html"><h3>DRAINAGE PROJECT</h3></a>
+            </div> 
+        </div>
+    </div>   
+  </div>
+</div>
+</body>
+</html>

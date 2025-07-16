@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WPR Drain</title>
+    <link rel ="stylesheet" href ="style.css">
+</head>
+<body style="overflow: hidden;">
+    <header>
+    <div>
+        <div class="navbar">
+            <div class = "gor">
+                 <img src="gor1-removebg-preview.png" alt="Image">
+            </div>
+            <div class = "abd">
+                 <img src="abd-removebg-preview.png" alt="Image">
+           </div>
+           <div class="home-border">
+            <img src = "home-removebg-preview.png" alt = "Image">
+            <a href="0 index.html"> Home </a> 
+           </div> 
+           <div class = " cons-border">
+            <img src = "about-removebg-preview.png" alt = "Image">
+            <a href="About.html"> About </a> 
+           </div>
+           <div class = "Services-border">
+            <img src = "dashb-removebg-preview.png" alt = "Image">
+            <a href="dash.html"> Dashboard </a> 
+           </div>
+        </div>
+    </div>
+    </header>
+   
+<h2 style="text-align:center; margin-top: 110px;">WPR Drainage</h2>
+  <script>
+    const sheetID = '2PACX-1vSYSZyMOCUOX0hQ4-B-mW-3ySTd23ELeZ5Eg1-t9vErSJXIZJGnguT1aqAsbMNeEWJ7HBMO29tBH97k';
+
+    function fetchData() {
+      const url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vSYSZyMOCUOX0hQ4-B-mW-3ySTd23ELeZ5Eg1-t9vErSJXIZJGnguT1aqAsbMNeEWJ7HBMO29tBH97k/pubhtml`;
+      console.log("Fetching data from:", url);
+      fetch(url)
+        .then(res => {
+          if (!res.ok) throw new Error('Network response was not ok: ' + res.statusText);
+          return res.text();
+        })
+        .then(rep => {
+          const jsonData = JSON.parse(rep.substr(47).slice(0, -2));
+          const table = document.getElementById("data-table");
+          table.innerHTML = "";
+          let headerRow = "<tr>";
+          jsonData.table.cols.forEach(col => {
+            if (col.label) headerRow += `<th>${col.label}</th>`;
+          });
+          headerRow += "</tr>";
+          table.innerHTML += headerRow;
+          jsonData.table.rows.forEach(row => {
+            let rowHTML = "<tr>";
+            row.c.forEach(cell => {
+              rowHTML += `<td>${cell ? cell.v : ""}</td>`;
+            });
+            rowHTML += "</tr>";
+            table.innerHTML += rowHTML;
+          });
+
+          console.log("Table populated successfully.");
+        })
+        .catch(error => console.log('Error fetching data:', error));
+    }
+    window.onload = fetchData;
+  </script>
+   <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSYSZyMOCUOX0hQ4-B-mW-3ySTd23ELeZ5Eg1-t9vErSJXIZJGnguT1aqAsbMNeEWJ7HBMO29tBH97k/pubhtml"></iframe>
+</body>  
+</html>
